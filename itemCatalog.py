@@ -17,23 +17,23 @@ app = Flask(__name__)
 @app.route('/')
 @app.route('/catalog')
 def showCatalog():
-	return 'this is all catalogs'
+	return render_template('category.html')
 
 @app.route('/catalog/new')
 def newCatalog():
-	return "page for new catalog"
+	return render_template('newCatalog.html')
 
 @app.route('/catalog/<category>/edit')
 def editItem(category):
-	return "page for edited category"
+	return render_template('editItem.html')
 
 @app.route('/catalog/<category>/delete')
 def deleteItem(category):
-	return 'Page for delete route'
+	return render_template('deleteItem.html')
 
 @app.route('/catalog/<category>/new')
 def newItem(category):
-	return 'page for new item route'
+	return render_template('newItem.html')
 
 
 if __name__ == '__main__':
