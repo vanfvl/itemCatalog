@@ -17,11 +17,11 @@ app = Flask(__name__)
 @app.route('/')
 @app.route('/catalog')
 def showCatalog():
-	return render_template('category.html')
+	return render_template('catalog.html')
 
-@app.route('/catalog/new')
-def newCatalog():
-	return render_template('newCatalog.html')
+@app.route('/catalog/new/')
+def newCategory():
+	return render_template('newCategory.html')
 
 @app.route('/catalog/<category>/edit')
 def editItem(category):
