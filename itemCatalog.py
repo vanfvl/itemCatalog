@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, jsonify, url_for, flash
 from sqlalchemy import create_engine, asc
 from sqlalchemy.orm import sessionmaker
-# from models import Base, Category, CategoryItem, User
+from models import Base, Category, CategoryItem
 from flask import session as login_session
 import random
 import string
@@ -14,10 +14,20 @@ import requests
 
 app = Flask(__name__)
 
+# Connect to Database and create database session
+engine = create_engine('sqlite:///itemcatalog.db')
+Base.metadata.bind = engine
+
+DBSession = sessionmaker(bind=engine)
+session = DBSession()
+
 @app.route('/')
 @app.route('/catalog')
 def showCatalog():
-	return render_template('catalog.html')
+	categories = session.query(Category).order_by(asc(Category.name))
+
+
+	return render_template('catalog.html', categories=categories)
 
 @app.route('/catalog/new/')
 def newCategory():
