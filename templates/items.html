@@ -1,0 +1,30 @@
+{% extends "main.html" %}
+{% block content %}
+{% include "header.html" %}
+
+<div class="row divider green">
+	<div class="col-md-12"></div>
+</div>
+<div class="row banner items" >
+	<div class="col-md-11 col-md-offset-1 padding-none">
+		<div class="row padding-top padding-bottom">
+		<div class="col-md-1"></div>
+		<div class="col-md-10 padding-none">
+			<a href="{{url_for('newItem', category = category.name)}}">
+				<button class="btn btn-default" id="new-category">
+					<span class="glyphicon glyphicon-cutlery" aria-hidden="true"></span>Add an Item
+				</button>
+			</a>
+		</div>
+		<div class="col-md-1"></div>
+	</div>
+		{% for i in items %}
+		<a href="{{url_for('showItem', category = category.name, item = i.name)}}">
+		<h1>
+			{{ i.name }}
+		</h1>
+	</a>
+		{% endfor %}
+	</div>
+</div>
+{% endblock %}
