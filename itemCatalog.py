@@ -47,15 +47,8 @@ def newCategory():
 @app.route('/catalog/<category>/<item>/')
 def showItem(category, item):
 	category = session.query(Category).filter_by(name = category).first()
-	item = session.query(CategoryItem).filter_by(name = item).one()
+	item = session.query(CategoryItem).filter_by(name = item).first()
 	return render_template('item.html', item = item, category = category)
-
-@app.route('/catalog/<category>/<item>/edit/')
-def editItem(category, item):
-	category = session.query(Category).filter_by(name = category).first()
-	itemEdited = session.query(CategoryItem).filter_by(name = item).one()
-
-	return render_template('editItem.html', item = itemEdited)
 
 @app.route('/catalog/<category>/new', methods=['GET', 'POST'])
 def newItem(category):
@@ -69,16 +62,34 @@ def newItem(category):
 	else:
 		return render_template('newItem.html')
 
+@app.route('/catalog/<category>/<item>/edit/', methods=['GET', 'POST'])
+def editItem(category, item):
+	category = session.query(Category).filter_by(name = category).one()
+	itemEdited = session.query(CategoryItem).filter_by(name = item).one()
+
+	if request.method == 'POST':
+		if request.form['name']:
+			itemEdited.name = request.form['name']
+		if request.form['description']:
+			itemEdited.description = request.form['description']
+		if request.form['price']:
+			itemEdited.price = request.form['price']
+		session.add(itemEdited)
+		session.commit()
+		return redirect(url_for('showCategory', category = category.name))
+	else:
+		return render_template('editItem.html', item = itemEdited, category = category)
+
 @app.route('/catalog/<category>/<item>/delete', methods=['GET', 'POST'])
 def deleteItem(category, item):
 	category = session.query(Category).filter_by(name = category).first()
-	itemToDelete = session.query(CategoryItem).filter_by(name = item).one()
+	itemToDelete = session.query(CategoryItem).filter_by(name = item).first()
 	if request.method == 'POST':
 		session.delete(itemToDelete)
 		session.commit()
 		return redirect(url_for('showCategory', category = category.name))
 	else:
-		return render_template('deleteItem.html', item=itemToDelete)
+		return render_template('deleteItem.html', item=itemToDelete, category = category)
 
 if __name__ == '__main__':
 	app.secret_key = 'super_secret_key'

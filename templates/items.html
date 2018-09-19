@@ -5,6 +5,11 @@
 <div class="row divider green">
 	<div class="col-md-12"></div>
 </div>
+<div class="row divider green"> 
+	<div class="col-md-12">
+		<h1>{{ category.name }}</h1>
+	</div>
+</div>
 <div class="row banner items" >
 	<div class="col-md-11 col-md-offset-1 padding-none">
 		<div class="row padding-top padding-bottom">
@@ -26,5 +31,13 @@
 	</a>
 		{% endfor %}
 	</div>
+	<div class="col-md-1"></div>
+		<div class="col-md-10 padding-none">
+			<a href="{{url_for('showCatalog')}}">
+				<button class="btn btn-default" id="show-category">
+					<span class="glyphicon glyphicon-cutlery" aria-hidden="true"></span>back
+				</button>
+			</a>
+		</div>
 </div>
 {% endblock %}
