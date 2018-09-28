@@ -7,7 +7,12 @@
 </div>
 <div class="row divider green"> 
 	<div class="col-md-12">
-		<h1>{{ category.name }}</h1>
+		<h1>{{ category.name }}
+			<figure class="creator">
+				<img src="{{ url_for('static', filename='blank_user.gif') }}">
+				<figcaption>Menu creator's name goes here</figcaption>
+			</figure>
+		</h1>
 	</div>
 </div>
 <div class="row banner items" >
