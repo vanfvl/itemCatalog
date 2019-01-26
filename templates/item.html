@@ -2,15 +2,18 @@
 {% block content %}
 {% include "header.html" %}
 
-<div class="row divider green">
-	<div class="col-md-12"></div>
-</div>
-<div class="row banner items" >
-	<div class="col-md-11 col-md-offset-1 padding-none">
-	<h1>{{ item.name }}</h1>
-	<h2>{{ item.description }}</h2>
-	<h3>{{ item.price }}</h3>
+<div class="container">
+	<div class="row categs">
+    <div class="col-sm-12">
+    	<h1>{{ item.name }}</h1>
+	    <h2>{{ item.description }}</h2>
+	    <h3>{{ item.price }}</h3>
+	<!-- pass item.name as param to prevent object as argument -->
 	<a href="{{ url_for('editItem', category=category.name, item=item.name)}}"><span>edit</span></a>
 	<a href="{{ url_for('deleteItem', category=category.name, item=item.name)}}"><span>delete</span></a>
+    	
+  </div>
+</div>
 </div>
 {% endblock %}
+

@@ -26,7 +26,7 @@ session.add(User1)
 session.commit()
 
 # Items for basketball
-category1 = Category(name="Basketball")
+category1 = Category(user_id=1, name="Basketball")
 
 session.add(category1)
 session.commit()
@@ -45,7 +45,7 @@ session.add(categoryItem1)
 session.commit()
 
 # Items for Snowboard
-category2 = Category(name="Snowboarding")
+category2 = Category(user_id=1, name="Snowboarding")
 
 session.add(category2)
 session.commit()

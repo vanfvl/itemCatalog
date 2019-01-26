@@ -1,48 +1,41 @@
 {% extends "main.html" %}
 {% block content %}
 {% include "header.html" %}
-
-<div class="row divider green">
-	<div class="col-md-12"></div>
-</div>
-<div class="row divider green"> 
-	<div class="col-md-12">
-		<h1>{{ category.name }}
-			<figure class="creator">
-				<img src="{{ url_for('static', filename='blank_user.gif') }}">
-				<figcaption>Menu creator's name goes here</figcaption>
-			</figure>
-		</h1>
-	</div>
-</div>
-<div class="row banner items" >
-	<div class="col-md-11 col-md-offset-1 padding-none">
-		<div class="row padding-top padding-bottom">
-		<div class="col-md-1"></div>
-		<div class="col-md-10 padding-none">
-			<a href="{{url_for('newItem', category = category.name)}}">
+<div class="container">
+	<div class="row categs">
+    <div class="col-sm-3 sidebar">
+    	<h1>Categories</h1>
+    	{% for category in categories %}
+		<a href = "{{url_for('showCategory', category = category.name)}}">
+						<h4>{{category.name}}</h4>
+					
+		</a>
+	{% endfor %}
+    	
+  </div>
+    <div class="col-sm-9">
+    	<h1>{{ category.name }} items</h1>
+    	<a href="{{url_for('deleteCategory', category=category.name)}}">
+    		<button class="btn btn-default" id="delete-category">
+    		<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>Delete Category
+    	</button>
+    </a>
+    	<a href="{{url_for('newItem', category=category.name)}}">
 				<button class="btn btn-default" id="new-category">
-					<span class="glyphicon glyphicon-cutlery" aria-hidden="true"></span>Add an Item
+					<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Add an Item
 				</button>
 			</a>
-		</div>
-		<div class="col-md-1"></div>
-	</div>
-		{% for i in items %}
+    	{% for i in items %}
 		<a href="{{url_for('showItem', category = category.name, item = i.name)}}">
-		<h1>
+		<h4>
 			{{ i.name }}
-		</h1>
+		</h4>
 	</a>
 		{% endfor %}
-	</div>
-	<div class="col-md-1"></div>
-		<div class="col-md-10 padding-none">
-			<a href="{{url_for('showCatalog')}}">
-				<button class="btn btn-default" id="show-category">
-					<span class="glyphicon glyphicon-cutlery" aria-hidden="true"></span>back
-				</button>
-			</a>
-		</div>
+    </div>
+
+  </div>
 </div>
+
 {% endblock %}
+

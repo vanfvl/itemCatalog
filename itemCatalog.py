@@ -182,7 +182,7 @@ def gdisconnect():
         del login_session['picture']
         del login_session['gplus_id']
         flash("You have successfully been logged out.")
-        return response
+        return redirect(url_for('showCatalog'))
     else:
         response = make_response(json.dumps('Failed to revoke token for given user.', 400))
         response.headers['Content-Type'] = 'application/json'
@@ -198,9 +198,10 @@ def showCatalog():
 
 @app.route('/catalog/<category>/')
 def showCategory(category):
+    categories = session.query(Category).all()
     category = session.query(Category).filter_by(name=category).first()
     items = session.query(CategoryItem).filter_by(category=category).all()
-    return render_template('items.html', items=items, category=category)
+    return render_template('items.html', items=items, category=category, categories = categories)
 
 
 @app.route('/catalog/new/', methods=['GET', 'POST'])
@@ -208,13 +209,23 @@ def newCategory():
     if 'username' not in login_session:
         return redirect('/login')
     if request.method == 'POST':
-        newCategory = Category(name=request.form['name'])
+        newCategory = Category(name=request.form['name'], user_id=login_session['user_id'])
         session.add(newCategory)
         flash('New Category %s Successfully Created' % newCategory.name)
         session.commit()
         return redirect(url_for('showCatalog'))
     else:
         return render_template('newCategory.html')
+
+@app.route('/catalog/<category>/delete', methods=['GET', 'POST'])
+def deleteCategory(category):
+    category = session.query(Category).filter_by(name=category).first()
+    if request.method == 'POST':
+        session.delete(category)
+        session.commit()
+        return redirect(url_for('showCatalog'))
+    else:
+        return render_template('deleteCategory.html', category=category)
 
 
 @app.route('/catalog/<category>/<item>/')
@@ -231,12 +242,12 @@ def newItem(category):
         return redirect('/login')
     if request.method == 'POST':
         newItem = CategoryItem(name=request.form['name'], description=request.form['description'], price=request.form['price'], 
-            category=category, category_id=category.id)
+        	category_id=category.id, user_id=login_session['user_id'])
         session.add(newItem)
         session.commit()
         return redirect(url_for('showCategory', category=category.name))
     else:
-        return render_template('newItem.html')
+        return render_template('newItem.html', category=category)
 
 
 @app.route('/catalog/<category>/<item>/edit/', methods=['GET', 'POST'])
@@ -304,6 +315,10 @@ def disconnect():
         flash("You were not logged in")
         return redirect(url_for('showCatalog'))
 
+@app.route('/clear')
+def clearLogin():
+	login_session.clear()
+	return 'login session cleared!'
 
 if __name__ == '__main__':
     app.secret_key = 'super_secret_key'

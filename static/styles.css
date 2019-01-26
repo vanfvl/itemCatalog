@@ -1,0 +1,18 @@
+.navbar .navbar-nav {
+  display: inline-block;
+  float: none;
+  vertical-align: top;
+}
+
+.navbar .navbar-collapse {
+  text-align: center;
+}
+
+.categs {
+	background-color: #f8f8f8;
+  border-color: #e7e7e7;
+}
+
+.sidebar {
+	border-right: 3px solid grey
+}
